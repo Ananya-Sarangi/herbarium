@@ -1,0 +1,332 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F5F5F5;
+    color: #2C3E50;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* Map Container */
+.map-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.base-map {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Markers */
+.marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.marker::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.marker.herb {
+    background-color: #498077;
+    box-shadow: 0 0 0 4px rgba(73, 128, 119, 0.2);
+}
+
+.marker.recipe {
+    background-color: #CE7A4A;
+    box-shadow: 0 0 0 4px rgba(206, 122, 74, 0.2);
+}
+
+.marker.remedy {
+    background-color: #39A9D4;
+    box-shadow: 0 0 0 4px rgba(57, 169, 212, 0.2);
+}
+
+.marker:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Layer Controls */
+.layer-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 14px 22px;
+    border-radius: 16px;
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.03),
+        0 1px 3px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    min-width: 200px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.layer-toggle {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.layer-toggle label {
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    flex: 1;
+    color: rgba(44, 62, 80, 0.9);
+    letter-spacing: 0.2px;
+}
+
+/* Custom checkbox styling */
+.layer-toggle input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(224, 224, 224, 0.8);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.2s ease;
+    margin: 0;
+}
+
+.layer-toggle input[type="checkbox"]:checked {
+    border-color: rgba(44, 62, 80, 0.9);
+    background: rgba(44, 62, 80, 0.9);
+}
+
+/* Checkmark styling */
+.layer-toggle input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 55%;
+    top: 45%;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+/* Color indicators */
+.layer-toggle::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: auto;
+    opacity: 0.85;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.layer-toggle.herbs::after {
+    background-color: #498077;
+    box-shadow: 
+        0 2px 4px rgba(73, 128, 119, 0.15),
+        0 0 0 2px rgba(73, 128, 119, 0.1);
+}
+
+.layer-toggle.recipes::after {
+    background-color: #CE7A4A;
+    box-shadow: 
+        0 2px 4px rgba(206, 122, 74, 0.15),
+        0 0 0 2px rgba(206, 122, 74, 0.1);
+}
+
+.layer-toggle.remedies::after {
+    background-color: #39A9D4;
+    box-shadow: 
+        0 2px 4px rgba(57, 169, 212, 0.15),
+        0 0 0 2px rgba(57, 169, 212, 0.1);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 350px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: -2px 0 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0,0,0,0.04);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px 0 0 18px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-left: 1px solid rgba(255,255,255,0.7);
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-content {
+    padding: 28px 24px 24px 24px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #2C3E50;
+    letter-spacing: 0.2px;
+    font-weight: 600;
+}
+
+.sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2C3E50;
+}
+
+.sidebar h4 {
+    font-size: 16px;
+    margin: 15px 0 8px;
+    color: #2C3E50;
+}
+
+.sidebar p {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.sidebar ul {
+    list-style-position: inside;
+    margin-left: 10px;
+}
+
+.sidebar li {
+    margin-bottom: 5px;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(255,255,255,0.7);
+    border: none;
+    font-size: 26px;
+    color: #2C3E50;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(44,62,80,0.06);
+    transition: background 0.2s, color 0.2s;
+    z-index: 1100;
+}
+.sidebar-close:hover {
+    background: #2C3E50;
+    color: #fff;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+}
+
+.tooltip.visible {
+    opacity: 1;
+}
+
+/* Category Colors */
+.herb { color: #7A918D; }
+.recipe { color: #C17F59; }
+.remedy { color: #6B8F71; }
+
+.category {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.herb.category { background-color: rgba(122, 145, 141, 0.1); }
+.recipe.category { background-color: rgba(193, 127, 89, 0.1); }
+.remedy.category { background-color: rgba(107, 143, 113, 0.1); }
+
+.filter-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2C3E50;
+    margin-bottom: 2px;
+    letter-spacing: 0.1px;
+}
+
+.filter-subtitle {
+    font-size: 13px;
+    color: rgba(44, 62, 80, 0.7);
+    margin-bottom: 18px;
+    line-height: 1.3;
+}
+
+.filter-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(44,62,80,0.10) 0%, rgba(44,62,80,0.18) 50%, rgba(44,62,80,0.10) 100%);
+    border-radius: 2px;
+    margin: 4px 0 18px 0;
+    border: none;
+} 
